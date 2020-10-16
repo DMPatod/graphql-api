@@ -15,7 +15,19 @@ type CustomerDto {
   long: String
 }
 
+type PaginatedCustomersDto {
+  data: [CustomerDto!]!
+  totalCount: Float!
+}
+
+type CitysDto {
+  city: String!
+  count: Float!
+}
+
 type Query {
   getCustomer(id: Float!): CustomerDto!
-  getCustomers: [CustomerDto!]!
+  getCustomers(size: Float, page: Float): PaginatedCustomersDto!
+  getCustomersByCity(size: Float, page: Float, city: String!): PaginatedCustomersDto!
+  getCustomersCitys: [CitysDto!]!
 }

@@ -32,3 +32,8 @@ export class Customer {
   @Column({ nullable: true })
   long: string;
 }
+
+export class PaginatedCustomer {
+  data: Customer[];
+  totalCount: number;
+}

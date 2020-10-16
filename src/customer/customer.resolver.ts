@@ -1,5 +1,5 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { CustomerDto } from './customer.dto';
+import { CitysDto, CustomerDto, PaginatedCustomersDto } from './customer.dto';
 import { Customer } from './customer.entity';
 import { CustomerService } from './customer.service';
 
@@ -12,8 +12,25 @@ export class CustomerResolver {
     return this.service.findOne(id);
   }
 
-  @Query(() => [CustomerDto])
-  async getCustomers() {
-    return this.service.findAll();
+  @Query(() => PaginatedCustomersDto)
+  async getCustomers(
+    @Args('page', { nullable: true }) page: number,
+    @Args('size', { nullable: true }) size: number,
+  ) {
+    return this.service.findAll(page, size);
+  }
+
+  @Query(() => PaginatedCustomersDto)
+  async getCustomersByCity(
+    @Args('city') city: string,
+    @Args('page', { nullable: true }) page: number,
+    @Args('size', { nullable: true }) size: number,
+  ) {
+    return this.service.findByCity(city, page, size);
+  }
+
+  @Query(() => [CitysDto])
+  async getCustomersCitys(): Promise<Customer[]> {
+    return this.service.findCustomersCitys();
   }
 }
